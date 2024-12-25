@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   // use random value to determine which variant to use
   const randomValue = Math.random();
 
-  // use /b page if the randomValue is lowerthan or matches the weight of b variation
+  // use /variantb page if the randomValue is lowerthan or matches the weight of b variation
   if(randomValue <= (projects[0].weightb / 100)) {
 
     // use rewrite to use /b page for variation B
