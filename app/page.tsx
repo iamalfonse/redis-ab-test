@@ -1,11 +1,10 @@
-import { getProjects, getHero } from "@/sanity/sanity-utils";
+import { getProjects, getHeros } from "@/sanity/sanity-utils";
 import { Project } from "@/types/Projects";
 
 export default async function Home() {
 
   const projects = await getProjects();
-  console.log('projects:', projects);
-  const heroContent = await getHero();
+  const heroContent = await getHeros();
   const hero = heroContent[0]; // Variation A hero
   
 
@@ -18,7 +17,6 @@ export default async function Home() {
             <div key={project._id}>
               <h2>VariationA name: {project.name}</h2>
               <p>VariationA slug: {project.slug}</p>
-              <p>variantA id: {project.varianta._ref}</p>
             </div>
         )) }
       </main>

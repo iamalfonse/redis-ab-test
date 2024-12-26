@@ -9,6 +9,12 @@ const hero = {
             type: 'string',
         },
         {
+            name: 'slug',
+            title: 'Slug',
+            type: 'slug',
+            options: { source: 'name' }, // uses the name field and slugify it
+        },
+        {
             name: 'headline',
             title: 'Headline',
             type: 'string',
@@ -18,6 +24,11 @@ const hero = {
             title: 'Subheading',
             type: 'string',
         },
+        {
+            name: 'weight',
+            title: 'Variant Weight',
+            type: 'number'
+        }
         
     ]
 }

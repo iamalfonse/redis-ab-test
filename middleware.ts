@@ -1,21 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProjects } from "@/sanity/sanity-utils";
+import { getHeros } from "@/sanity/sanity-utils";
+import { Hero } from "./types/Heros";
+
+// function used to grab the specific URL slug depending on the variant weight
+function selectABTest(slugArray: string[], weights: number[]) {
+  let totalWeight = 0;
+  for (let i = 0; i < weights.length; i++) {
+    totalWeight += weights[i];
+  }
+
+  const random = Math.random() * totalWeight;
+  let weightSum = 0;
+
+  for (let i = 0; i < slugArray.length; i++) {
+    weightSum += weights[i];
+    if (random < weightSum) {
+      return slugArray[i];
+    }
+  }
+}
 
 export async function middleware(request: NextRequest) {
 
-  const projects = await getProjects();
-  // console.log(projects);
+  const heros = await getHeros();
 
-  // use random value to determine which variant to use
-  const randomValue = Math.random();
+  const heroArray = heros.map((hero: Hero) => hero.slug.current)
+  const weightsArray = heros.map((hero: Hero) => hero.weight)
 
-  // use /variantb page if the randomValue is lowerthan or matches the weight of b variation
-  if(randomValue <= (projects[0].weightb / 100)) {
+  // grab winning slug
+  const winningSlug = selectABTest(heroArray, weightsArray);
 
-    // use rewrite to use /b page for variation B
-    return NextResponse.rewrite(new URL('/variantb', request.url));
-  }
-  
+  // use rewrite to use /abtests/{slug} to show the winning variation
+  return NextResponse.rewrite(new URL(`/abtests/${winningSlug}`, request.url));
 }
 
 export const config = {
