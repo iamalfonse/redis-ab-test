@@ -24,7 +24,9 @@ export async function middleware(request: NextRequest) {
 
   const heros = await getHeros();
 
+  // grab the array of heros
   const heroArray = heros.map((hero: Hero) => hero.slug.current)
+  // grab array of weights from heros
   const weightsArray = heros.map((hero: Hero) => hero.weight)
 
   // grab winning slug
@@ -35,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/"
+  matcher: "/" // match the rewrite for the homepage
 }
